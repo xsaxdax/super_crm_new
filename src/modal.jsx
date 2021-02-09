@@ -1,22 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Modal, IconButton } from "@material-ui/core";
+import { IconButton, Popover, Typography } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,53 +15,79 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SimpleModal(props) {
-  // console.log(props);
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleOpen = () => {
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
     rowCheck();
-    setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setAnchorEl(null);
   };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   const rowCheck = () => {
     console.log("rowCheck", props.row);
   };
 
-  const body = (
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
-      <SimpleModal />
-    </div>
-  );
+  const style = {
+    display: "flex",
+    justifyContent: "center"
+  };
 
   return (
     <div>
       <IconButton
         color="primary"
-        aria-label="upload picture"
+        aria-label="grid eye"
         component="span"
-        onClick={handleOpen}
+        onClick={handleClick}
+        aria-describedby={id}
       >
         <VisibilityIcon />
       </IconButton>
-      <Modal
+      {/*<Popper id={id} open={open} anchorEl={anchorEl}>
+        <div className={classes.paper}>The content of the Popper.</div>
+  </Popper>*/}
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "center",
+          horizontal: "left"
+        }}
+        transformOrigin={{
+          vertical: "center",
+          horizontal: "left"
+        }}
+      >
+        <Typography style={style} className={classes.typography}>
+          The content of the Popover.
+          <IconButton
+            color="primary"
+            aria-label="eye modal"
+            component="span"
+            onClick={handleClose}
+            aria-describedby={id}
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </Typography>
+      </Popover>
+      {/*  <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
         {body}
-      </Modal>
+    </Modal> */}
     </div>
   );
 }

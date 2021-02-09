@@ -1,6 +1,7 @@
 import * as React from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { Paper } from "@material-ui/core";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 import SimpleModal from "./modal";
 export default function DataGridDemo() {
@@ -18,9 +19,12 @@ export default function DataGridDemo() {
       flex: 1
     },
     {
-      field: "adress",
-      renderCell: (params) => <SimpleModal row={params} />,
-      headerName: "Adress"
+      field: "Other Information",
+      flex: 0.5,
+      //  renderHeader: () => (
+      //     <VisibilityIcon color="primary" />
+      // ),
+      renderCell: (params) => <SimpleModal row={params} />
     }
   ];
 
@@ -57,7 +61,9 @@ export default function DataGridDemo() {
     }
   ];
 
-  const onChange = (e) => <p1> {e.value} </p1>;
+  const onChange = (e) => {
+    console.log(e.value);
+  };
 
   return (
     <Paper>
@@ -68,6 +74,8 @@ export default function DataGridDemo() {
               rows={rows}
               columns={columns}
               autoHeight={true}
+              disableColumnMenu={true}
+              disableColumnSelector={true}
               showToolbar
               hideFooter={true}
               pagination
