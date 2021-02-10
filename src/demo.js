@@ -80,6 +80,7 @@ export default function DataGridDemo() {
               hideFooter={true}
               pagination
               onCellHover={(e) => onChange(e)}
+              onRowClick={(e) => console.log("RowClick", e)}
               icons={<SimpleModal />}
             ></DataGrid>
           </div>

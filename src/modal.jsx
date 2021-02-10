@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, Popover, Typography } from "@material-ui/core";
+import { IconButton, Popover, Paper } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,11 @@ export default function SimpleModal(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
+    console.log("Event", event.currentTarget);
+    console.log("Element", props.row.api.rootElementRef);
     setAnchorEl(event.currentTarget);
+    // props.row.api.rootElementRef);
+
     rowCheck();
   };
 
@@ -31,12 +35,7 @@ export default function SimpleModal(props) {
   const id = open ? "simple-popover" : undefined;
 
   const rowCheck = () => {
-    console.log("rowCheck", props.row);
-  };
-
-  const style = {
-    display: "flex",
-    justifyContent: "center"
+    console.log("rowCheck", props.row.api.rootElementRef);
   };
 
   return (
@@ -50,44 +49,31 @@ export default function SimpleModal(props) {
       >
         <VisibilityIcon />
       </IconButton>
-      {/*<Popper id={id} open={open} anchorEl={anchorEl}>
-        <div className={classes.paper}>The content of the Popper.</div>
-  </Popper>*/}
+
       <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
+        anchorReference="anchorPosition"
+        anchorPosition={{ top: 0, left: 200 }}
         anchorOrigin={{
-          vertical: "center",
+          vertical: "bottom",
           horizontal: "left"
         }}
         transformOrigin={{
           vertical: "center",
-          horizontal: "left"
+          horizontal: "right"
         }}
       >
-        <Typography style={style} className={classes.typography}>
-          The content of the Popover.
-          <IconButton
-            color="primary"
-            aria-label="eye modal"
-            component="span"
-            onClick={handleClose}
-            aria-describedby={id}
-          >
-            <VisibilityIcon />
-          </IconButton>
-        </Typography>
+        <Paper>
+          <div style={{ height: 52 * 13, width: "200px" }}>
+            <div style={{ display: "flex", height: "100%" }}>
+              <div style={{ flexGrow: 1 }}></div>
+            </div>
+          </div>
+        </Paper>
       </Popover>
-      {/*  <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {body}
-    </Modal> */}
     </div>
   );
 }
