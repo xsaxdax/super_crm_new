@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DataGrid, GridToolbar } from "@material-ui/data-grid";
-import { Paper } from "@material-ui/core";
+import { Paper, IconButton } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 
 import SimpleModal from "./modal";
@@ -25,11 +25,13 @@ export default function DataGridDemo() {
       //     <VisibilityIcon color="primary" />
       // ),
       renderCell: (params) => (
-        <SimpleModal
-          row={params}
-          onClick={console.log("On click")}
-          onRowClick={() => console.log("Render Cell")}
-        />
+        <VisibilityIcon />
+
+        // <SimpleModal
+        //   row={params}
+        //   onClick={console.log("On click")}
+        //   onRowClick={() => console.log("Render Cell")}
+        // />
       )
     }
   ];
@@ -86,6 +88,29 @@ export default function DataGridDemo() {
     // console.log(e.value);
   };
 
+  const checkCell = (cell) => {
+    console.log("Cell", cell);
+    if (cell.field === "Other Information") {
+      handleClick(cell.element.parentElement);
+      console.log("right cell", cell.element.parentElement);
+    }
+  };
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  // const rows = useState(props.row.row);
+
+  const handleClick = (event) => {
+    console.log("Event", event);
+    setAnchorEl(event);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  //const open = Boolean(anchorEl);
+  //const id = open ? "simple-popover" : undefined;
+
   return (
     <Paper>
       <div style={{ height: 400, width: "100%" }}>
@@ -105,9 +130,11 @@ export default function DataGridDemo() {
                 Toolbar: GridToolbar
               }}
               onCellHover={(e) => onChange(e)}
-              onCellClick={(e) => console.log("CellClick", e)}
-              onRowClick={(e) => console.log("RowClick", e)}
+              onCellClick={(cell) => checkCell(cell)}
+              //    onRowClick={(e) => console.log("RowClick", e)}
             ></DataGrid>
+
+            {anchorEl ? <h1> Anchor set </h1> : <h1> Anchor not set </h1>}
           </div>
         </div>
       </div>
