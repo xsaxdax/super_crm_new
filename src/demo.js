@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid } from "@material-ui/data-grid";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import { Paper } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 
@@ -24,7 +24,13 @@ export default function DataGridDemo() {
       //  renderHeader: () => (
       //     <VisibilityIcon color="primary" />
       // ),
-      renderCell: (params) => <SimpleModal row={params} />
+      renderCell: (params) => (
+        <SimpleModal
+          row={params}
+          onClick={console.log("On click")}
+          onRowClick={() => console.log("Render Cell")}
+        />
+      )
     }
   ];
 
@@ -58,11 +64,26 @@ export default function DataGridDemo() {
       payForCloud: 0,
       payForNtrip: 0,
       isAdmin: 0
+    },
+    {
+      id: 3,
+      companyId: 2,
+      companyName: "x",
+      email: "x@-.-",
+      phoneNumber: "022990787877",
+      contactName: "flower street",
+      adress: "flower street",
+      companyIdCRM: "jklökl",
+      manuallyProcessing: 0,
+      payforSubscribtion: 0,
+      payForCloud: 0,
+      payForNtrip: 0,
+      isAdmin: 0
     }
   ];
 
   const onChange = (e) => {
-    console.log(e.value);
+    // console.log(e.value);
   };
 
   return (
@@ -75,13 +96,17 @@ export default function DataGridDemo() {
               columns={columns}
               autoHeight={true}
               disableColumnMenu={true}
-              disableColumnSelector={true}
+              disableColumnSelector={false}
+              disableSelectionOnClick={true}
               showToolbar
               hideFooter={true}
               pagination
+              components={{
+                Toolbar: GridToolbar
+              }}
               onCellHover={(e) => onChange(e)}
+              onCellClick={(e) => console.log("CellClick", e)}
               onRowClick={(e) => console.log("RowClick", e)}
-              icons={<SimpleModal />}
             ></DataGrid>
           </div>
         </div>

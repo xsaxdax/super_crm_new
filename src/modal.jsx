@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, Popover, Paper } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
 
+//get the row height from the props: props.row.api.state.density
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
@@ -17,14 +25,21 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleModal(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  // const rows = useState(props.row.row);
 
   const handleClick = (event) => {
-    console.log("Event", event.currentTarget);
-    console.log("Element", props.row.api.rootElementRef);
+    // console.log("Event", event);
+    // console.log("getColumnIndex", props.row.api.getRenderContextState());
+    // console.log("select Rows", props.row.api.getColumnFromField());
+    console.log("Props", props);
+
+    // console.log(
+    //   "Props ", props.row.api.columnHeadersElementRef.current.innerHTML
+    // );
     setAnchorEl(event.currentTarget);
     // props.row.api.rootElementRef);
 
-    rowCheck();
+    //  rowCheck();
   };
 
   const handleClose = () => {
@@ -34,9 +49,9 @@ export default function SimpleModal(props) {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const rowCheck = () => {
-    console.log("rowCheck", props.row.api.rootElementRef);
-  };
+  // const rowCheck = () => {
+  //   console.log("rowCheck", props.row.api.rootElementRef);
+  // };
 
   return (
     <div>
@@ -50,15 +65,16 @@ export default function SimpleModal(props) {
         <VisibilityIcon />
       </IconButton>
 
+      {/*div here to change Icon Position */}
       <Popover
         id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorReference="anchorPosition"
-        anchorPosition={{ top: 0, left: 200 }}
+        anchorPosition={{ top: 0, left: 0 }}
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "center",
           horizontal: "left"
         }}
         transformOrigin={{
@@ -67,11 +83,34 @@ export default function SimpleModal(props) {
         }}
       >
         <Paper>
-          <div style={{ height: 52 * 13, width: "200px" }}>
-            <div style={{ display: "flex", height: "100%" }}>
-              <div style={{ flexGrow: 1 }}></div>
-            </div>
-          </div>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell align="left">Company Name</TableCell>
+                <TableCell align="left">E-Mail</TableCell>
+                <TableCell align="left">Number</TableCell>
+                <TableCell align="left">Contact</TableCell>
+                <TableCell align="left">Adress</TableCell>
+                <TableCell align="left">ID CRM</TableCell>
+                <TableCell align="left">Processing</TableCell>
+                <TableCell align="left">Subscribtion</TableCell>
+                <TableCell align="left">Cloud</TableCell>
+                <TableCell align="left">Ntrip</TableCell>
+                <TableCell align="left">Admin</TableCell>
+              </TableRow>
+            </TableHead>
+            {/*  <TableBody>
+                    {rows.map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell component="th" scope="row">
+                          {" "}
+                          {row.id}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    </TableBody> */}
+          </Table>
         </Paper>
       </Popover>
     </div>
