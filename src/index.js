@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Demo from './demo';
+import Mainpage from "./mainpage";
 
-ReactDOM.render(<Demo />, document.querySelector('#root'));
+ReactDOM.render(<Mainpage />, document.querySelector('#root'));
     
